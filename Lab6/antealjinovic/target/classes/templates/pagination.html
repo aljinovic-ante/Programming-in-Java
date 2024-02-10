@@ -1,0 +1,117 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Device Records</title>
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        padding-top: 60px;
+    }
+    .container {
+        width: 80%;
+        margin: auto;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    .navbar {
+        margin-bottom: 20px;
+    }
+    .but {
+            display: inline-block;
+            padding: 10px 15px;
+            margin: 10px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .pagination {
+        display: flex;
+        justify-content: center;
+        padding-left: 0;
+        list-style: none;
+        }
+
+        .pagination .page-item {
+            display: inline;
+        }
+
+        .pagination .page-link {
+            border: 1px solid #007bff;
+            padding: 5px 10px;
+            margin-left: 5px;
+            text-decoration: none;
+            color: #007bff;
+            background-color: white;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .pagination .page-link:hover {
+            color: white;
+            background-color: #007bff;
+        }
+
+        .pagination .active .page-link {
+            color: white;
+            background-color: #007bff;
+        }
+
+</style>
+<body>
+
+<main role="main" class="container">
+    <a href="/addRecords/add2" class="but">Add New Record</a>
+
+    <div class="pt-5">
+        <h1>Device Records</h1>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Device Name</th>
+                <th>Record Year</th>
+                <th>Record Month</th>
+                <th>Record consumption</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="record, iStat : ${devicePage.content}">
+                <td th:text="${record.device.name}"></td>
+                <td th:text="${record.year}"></td>
+                <td th:text="${record.month}"></td>
+                <td th:text="${record.consumption}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li th:each="pageNumber : ${pageNumbers}" class="page-item" th:classappend="${pageNumber == devicePage.number + 1} ? 'active'">
+                    <a class="page-link" th:href="@{/addRecords/pagination(size=${devicePage.size}, page=${pageNumber})}" th:text="${pageNumber}">Page Number</a>
+                </li>
+            </ul>
+        </nav>
+
+
+    </div>
+</main>
+
+</body>
+</html>

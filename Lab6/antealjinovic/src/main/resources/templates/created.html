@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All Records</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+            cursor: pointer; /* Add cursor pointer on hover over table headers */
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .but {
+            display: inline-block;
+            padding: 10px 15px;
+            margin: 10px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<main role="main" class="container">
+    <div class="main_div">
+        <h1>All Records:</h1>
+        <a href="/addRecords/add2" class="but">Add New Record</a>
+        <table id="recordsTable">
+            <thead>
+            <tr>
+                <th onclick="sortTable(0, 'recordsTable')">ID</th>
+                <th onclick="sortTable(1, 'recordsTable')">Month</th>
+                <th onclick="sortTable(2, 'recordsTable')">Year</th>
+                <th onclick="sortTable(3, 'recordsTable')">Consumption</th>
+                <th onclick="sortTable(4, 'recordsTable')">Device ID</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${records != null and !records.isEmpty()}" th:each="record : ${records}">
+                <td th:text="${record.id}">ID</td>
+                <td th:text="${record.month}">Month</td>
+                <td th:text="${record.year}">Year</td>
+                <td th:text="${record.consumption}">Consumption</td>
+                <td th:text="${record.device.id}">Device ID</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<script>
+    function sortTable(columnIndex, tableId) {
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById(tableId);
+        switching = true;
+        dir = "asc"; // Set the sorting direction to ascending initially
+        while (switching) {
+            switching = false;
+            rows = table.rows;
+            for (i = 1; i < (rows.length - 1); i++) {
+                shouldSwitch = false;
+                x = rows[i].getElementsByTagName("TD")[columnIndex];
+                y = rows[i + 1].getElementsByTagName("TD")[columnIndex];
+                let xVal = parseFloat(x.innerHTML);
+                let yVal = parseFloat(y.innerHTML);
+                if (dir == "asc") {
+                    if (xVal > yVal) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (dir == "desc") {
+                    if (xVal < yVal) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                switchcount++;
+            } else {
+                if (switchcount == 0 && dir == "asc") {
+                    dir = "desc";
+                    switching = true;
+                }
+            }
+        }
+    }
+
+
+</script>
+
+</body>
+</html>

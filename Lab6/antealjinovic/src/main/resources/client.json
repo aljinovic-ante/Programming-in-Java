@@ -1,0 +1,14 @@
+{
+    "id": 1,
+    "firstName": "mate",
+    "lastName": "matic",
+    "address": {
+        "id": 1
+
+    },
+    "device": {
+        "id": 1
+
+    }
+}
+
